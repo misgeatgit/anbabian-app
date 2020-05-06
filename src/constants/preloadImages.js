@@ -21,9 +21,17 @@ const theLonesomeCrowdedWest = require('../assets/images/albums/the-lonesome-cro
 const whenWeAllFallAsleep = require('../assets/images/albums/when-we-all-fall-asleep.jpg');
 const wishYouWereHere = require('../assets/images/albums/wish-you-where-here.jpg');
 
+const fikirEskeMekabir = require('../assets/images/albums/am/fikir_eskemakabir.jpg');
+const birikrkta = require('../assets/images/albums/am/birikrikta.jpg');
+const sememen = require('../assets/images/albums/am/sememen.jpg');
+const oromay = require('../assets/images/albums/am/oromay.jpg');
+const amistSidistSebat = require('../assets/images/albums/am/amist_sidist_sebat.jpg');
+const yensisatKetero = require('../assets/images/albums/am/yensisat_ketero.jpg');
+const piaza = require('../assets/images/albums/am/piaza.jpg');
+const abashaw = require('../assets/images/albums/am/abashaw.jpg');
+
 export default {
   user,
-
   blankFaceLp,
   bornToDie,
   comeAroundSundown,
@@ -39,5 +47,14 @@ export default {
   theLegendOfMrRager,
   theLonesomeCrowdedWest,
   whenWeAllFallAsleep,
-  wishYouWereHere
+  wishYouWereHere,
+
+  fikirEskeMekabir,
+  birikrkta,
+  sememen,
+  oromay,
+  amistSidistSebat,
+  yensisatKetero,
+  piaza,
+  abashaw
 };

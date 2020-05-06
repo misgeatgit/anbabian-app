@@ -7,7 +7,8 @@ import { colors, device, gStyle } from '../constants';
 import AlbumsHorizontal from '../components/AlbumsHorizontal';
 
 // mock data
-import heavyRotation from '../mockdata/heavyRotation';
+//import heavyRotation from '../mockdata/heavyRotation';
+import heavyRotation from '../mockdata/heavyRotationAM';
 import jumpBackIn from '../mockdata/jumpBackIn';
 import recentlyPlayed from '../mockdata/recentlyPlayed';
 
@@ -58,18 +59,17 @@ class Home extends React.Component {
         >
           <View style={gStyle.spacer16} />
 
-          <AlbumsHorizontal data={recentlyPlayed} heading="Recently played" />
-
+          <AlbumsHorizontal data={recentlyPlayed} heading="በቅርብ የተከፈቱ" />
           <AlbumsHorizontal
             data={heavyRotation}
-            heading="Your heavy rotation"
-            tagline="The music you've had on repeat this month."
+            heading="በብዙዎች የተነበቡ"
+            tagline="Popular this month."
           />
 
           <AlbumsHorizontal
             data={jumpBackIn}
-            heading="Jump back in"
-            tagline="Your top listens from the past few months."
+            heading="ምርጫዎቻችን"
+            tagline="Books you may like."
           />
         </Animated.ScrollView>
       </React.Fragment>
