@@ -4,6 +4,7 @@ export default {
   spotifyLight: 'spotifyLight',
   spotifyRegular: 'spotifyRegular',
   spotifyBold: 'spotifyBold',
+  spotifyAM: 'spotifyAM',
 
   bold: device.iOS ? 'HelveticaNeue-Bold' : 'sans-serif-condensed',
   light: device.iOS ? 'HelveticaNeue-Light' : 'sans-serif-light',

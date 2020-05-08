@@ -67,6 +67,18 @@ export default {
   textSpotifyBold20: { fontFamily: fonts.spotifyBold, fontSize: 20 },
   textSpotifyBold22: { fontFamily: fonts.spotifyBold, fontSize: 22 },
   textSpotifyBold24: { fontFamily: fonts.spotifyBold, fontSize: 24 },
+ 
+  textSpotify10AM: { fontFamily: fonts.spotifyAM, fontSize: 10 },
+  textSpotify12AM: { fontFamily: fonts.spotifyAM, fontSize: 12 },
+  textSpotify14AM: { fontFamily: fonts.spotifyAM, fontSize: 14 },
+  textSpotify16AM: { fontFamily: fonts.spotifyAM, fontSize: 16 },
+  textSpotify18AM: { fontFamily: fonts.spotifyAM, fontSize: 18 },
+  textSpotifyBold12AM: { fontFamily: fonts.spotifyAM, fontSize: 12 },
+  textSpotifyBold16AM: { fontFamily: fonts.spotifyAM, fontSize: 16 },
+  textSpotifyBold18AM: { fontFamily: fonts.spotifyAM, fontSize: 18 },
+  textSpotifyBold20AM: { fontFamily: fonts.spotifyAM, fontSize: 20 },
+  textSpotifyBold22AM: { fontFamily: fonts.spotifyAM, fontSize: 22 },
+  textSpotifyBold24AM: { fontFamily: fonts.spotifyAM, fontSize: 24 },
 
   // spacers
   // ///////////////////////////////////////////////////////////////////////////
