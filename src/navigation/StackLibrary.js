@@ -4,6 +4,7 @@ import { createStackNavigator } from 'react-navigation';
 
 // screens
 import LibraryScreen from '../screens/Library';
+import YourBooksScreen from '../screens/CategoricalBookList'
 
 // icons
 import SvgTabLibrary from '../components/icons/Svg.TabLibrary';
@@ -18,7 +19,8 @@ Icon.propTypes = {
 export default createStackNavigator(
   {
     LibraryMain: {
-      screen: LibraryScreen
+      //screen: LibraryScreen
+      screen: YourBooksScreen
     }
   },
   {
