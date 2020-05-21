@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { FontAwesome } from '@expo/vector-icons';
+import { Audio } from 'expo-av';
 import { colors, device, gStyle } from '../constants';
 
 class BarMusicPlayer extends React.Component {
@@ -13,7 +14,7 @@ class BarMusicPlayer extends React.Component {
       favorited: false,
       paused: true
     };
-
+    this.soundObject = new Audio.Sound();
     this.toggleFavorite = this.toggleFavorite.bind(this);
     this.togglePlay = this.togglePlay.bind(this);
   }
@@ -24,10 +25,29 @@ class BarMusicPlayer extends React.Component {
     }));
   }
 
-  togglePlay() {
+  async togglePlay() {
     this.setState(prev => ({
       paused: !prev.paused
     }));
+    const { paused } = this.state;
+    const { song } = this.props;
+    console.log(`SONG: ${song.audio}`);
+    if (!paused && song.audio) {
+      console.log('AUDIO exists.');
+      try {
+        await this.soundObject.loadAsync({uri: song.audio});
+        await this.soundObject.playAsync();
+      } catch (error) {
+        console.log(`ERROR: Unable to load and play ${song.title}`);
+      }
+    } 
+    else if(paused && song.audio){
+      try {
+        await this.soundObject.pauseAsync();
+      } catch (error) {
+        console.log(error);
+      }
+    }
   }
 
   render() {
