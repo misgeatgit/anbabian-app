@@ -1,0 +1,28 @@
+{
+  "artist": "Sisay Nigusu",
+  "backgroundColor": "#3d4c6c",
+  "image": "sememen",
+  "released": 1990,
+  "title": "ሰመመን",
+  "tracks": [{
+      "title": "Chapter One",
+      "seconds": 161,
+      "audio": "https://ia803003.us.archive.org/14/items/huckleberry_finn7_1904_librivox/huckfinn7_01_twain_128kb.mp3"
+    },
+    {
+      "title": "Chapter Two",
+      "seconds": 237,
+      "audio": "https://ia803003.us.archive.org/14/items/huckleberry_finn7_1904_librivox/huckfinn7_02_twain_128kb.mp3"
+    },
+    {
+      "title": "Chapter Three",
+      "seconds": 345,
+      "audio": "https://ia803003.us.archive.org/14/items/huckleberry_finn7_1904_librivox/huckfinn7_03_twain_128kb.mp3"
+    },
+    {
+      "title": "Chapter Four",
+      "seconds": 347,
+      "audio": "https://ia903003.us.archive.org/14/items/huckleberry_finn7_1904_librivox/huckfinn7_04_twain_128kb.mp3"
+    }
+  ]
+}
