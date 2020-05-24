@@ -247,6 +247,7 @@ class Album extends React.Component {
                     album: album.title,
                     artist: album.artist,
                     image: album.image,
+                    audio: track.audio,
                     length: track.seconds,
                     title: track.title
                   }}
