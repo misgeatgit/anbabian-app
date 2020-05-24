@@ -7,72 +7,86 @@
   "tracks": [
     {
       "title": "Scott Mescudi vs. the World",
-      "seconds": 235,
+      "seconds": 235, "audio": "",
       "featuring": ["CeeLo Green"]
     },
     {
       "title": "Revofev",
-      "seconds": 183
+      "seconds": 183, "audio": "" 
     },
     {
       "title": "Don't Play This Song",
       "seconds": 223,
+      "audio": "", 
       "featuring": ["Mary J. Blige"]
     },
     {
       "title": "We Aite (Wake Your Mind Up)",
+      "audio": "", 
       "seconds": 87
     },
     {
       "title": "Marijuana",
+      "audio": "", 
       "seconds": 260
     },
     {
       "title": "Mojo So Dope",
+      "audio": "", 
       "seconds": 211
     },
     {
       "title": "Ashin' Kusher",
+      "audio": "", 
       "seconds": 260
     },
     {
       "title": "Erase Me",
       "seconds": 260,
+      "audio": "", 
       "featuring": ["Mary J. Blige"]
     },
     {
       "title": "Wild'n Cuz I'm Young",
+      "audio": "", 
       "seconds": 260
     },
     {
       "title": "The Mood",
+      "audio": "", 
       "seconds": 260
     },
     {
       "title": "Maniac",
+      "audio": "", 
       "seconds": 260,
       "featuring": ["Cage", "St. Vincent"]
     },
     {
       "title": "These Worries",
+      "audio": "", 
       "seconds": 260,
       "featuring": ["Mary J. Blige"]
     },
     {
       "title": "The End",
+      "audio": "", 
       "seconds": 260,
       "featuring": ["GLC", "Chip tha Ripper", "Nicole Wray"]
     },
     {
       "title": "All Along",
+      "audio": "", 
       "seconds": 260
     },
     {
       "title": "Ghost!",
+      "audio": "", 
       "seconds": 260
     },
     {
       "title": "Trapped in My Mind",
+      "audio": "", 
       "seconds": 260
     }
   ]
