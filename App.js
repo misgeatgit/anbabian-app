@@ -54,9 +54,9 @@ export default class App extends React.Component {
     this.playSong = this.playSong.bind(this);
     this.setToggleTabBar = this.setToggleTabBar.bind(this);
   }
-   
-   componentDidMount() {
-      Audio.setAudioModeAsync({
+
+  componentDidMount() {
+    Audio.setAudioModeAsync({
       allowsRecordingIOS: false,
       staysActiveInBackground: false,
       interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
@@ -66,22 +66,22 @@ export default class App extends React.Component {
       playThroughEarpieceAndroid: false
     });
     // Create PlayBackInstance object
-    const { currentSongData: {audio} } = this.state
-    if(audio !== "")
+    const { currentSongData: { title, audio } } = this.state
+    console.log('COMPONENT IS MOUNTING...')
+    if (audio !== "")
       this._loadNewPlaybackInstance(false);
     else
-     console.log(`REJECTED CREATING A PLAYBACKINSTANCE OBJECT FOR audio url: ${audio}`)
-    console.log('COMPONENT IS MOUNTING...')
+      console.log(`REJECTED CREATING AUDIO PLAYER FOR MUSIC BY THE TITLE ${title} WITH SOURCE ${audio}`)
   }
 
- 
+
   async _loadNewPlaybackInstance(playing) {
     if (this.playbackInstance != null) {
       await this.playbackInstance.unloadAsync();
       // this.playbackInstance.setOnPlaybackStatusUpdate(null);
       this.playbackInstance = null;
     }
-    const { currentSongData: {audio, title} } = this.state
+    const { currentSongData: { audio, title } } = this.state
     const source = { uri: audio };
     const initialStatus = {
       shouldPlay: playing,
@@ -103,7 +103,7 @@ export default class App extends React.Component {
 
     this._updateScreenForLoading(false);
   }
-  
+
   _onPlaybackStatusUpdate = status => {
     if (status.isLoaded) {
       this.setState({
@@ -127,7 +127,7 @@ export default class App extends React.Component {
       }
     }
   };
-  
+
   _updateScreenForLoading(isLoading) {
     if (isLoading) {
       this.setState({
@@ -138,7 +138,7 @@ export default class App extends React.Component {
         isLoading: true
       });
     } else {
-      const { currentSongData: {title} } = this.state
+      const { currentSongData: { title } } = this.state
       this.setState({
         playbackInstanceName: title,
         isLoading: false
@@ -180,9 +180,9 @@ export default class App extends React.Component {
   }
 
   playSong(play) {
-    this.setState({ isPlaying: play});
+    this.setState({ isPlaying: play });
     this._onPlayPausePressed();
-  } 
+  }
 
   render() {
     const { currentSongData, isLoading, toggleTabBar } = this.state;
