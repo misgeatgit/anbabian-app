@@ -119,7 +119,7 @@ export default class App extends React.Component {
         shouldCorrectPitch: status.shouldCorrectPitch
       });
       if (status.didJustFinish && !status.isLooping) {
-        //TODO start playing here?
+        //TODO LOAD THE NEXT ITEM IN THE PLAY-LIST
       }
     } else {
       if (status.error) {
