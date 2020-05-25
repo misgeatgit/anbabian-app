@@ -165,11 +165,18 @@ export default class App extends React.Component {
   }
 
   changeSong(data) {
-    this.setState({
-      currentSongData: data
-    });
-    // Load new audio
-    this._loadNewPlaybackInstance(false)
+    console.log(`App.ChangeSong called. with TITLE:${data.title} and URL:${data.audio}`)
+    if (data.audio !== "") {
+      // Synchronize song update with playbackInstance object creation.
+      loadPlayer = () => { this._loadNewPlaybackInstance(false) }
+      this.setState({
+        currentSongData: data
+      }, loadPlayer);
+    } else {
+      this.setState({
+        currentSongData: data
+      });
+    }
   }
 
   playSong(play) {
