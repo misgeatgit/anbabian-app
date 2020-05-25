@@ -59,7 +59,12 @@ class Home extends React.Component {
         >
           <View style={gStyle.spacer16} />
 
-          <AlbumsHorizontal data={recentlyPlayed} heading="በቅርብ የተከፈቱ" />
+          <AlbumsHorizontal
+            data={recentlyPlayed}
+            heading="በቅርብ የተከፈቱ"
+            tagline="Recently viewed"
+          />
+
           <AlbumsHorizontal
             data={heavyRotation}
             heading="በብዙዎች የተነበቡ"
