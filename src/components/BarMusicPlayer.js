@@ -1,3 +1,5 @@
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable prettier/prettier */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -11,10 +13,15 @@ class BarMusicPlayer extends React.Component {
 
     this.state = {
       favorited: false,
-      paused: true
+      paused: true,
+      isLoaded: false //for sound
     };
     this.toggleFavorite = this.toggleFavorite.bind(this);
     this.togglePlay = this.togglePlay.bind(this);
+    this.toggleLoading=this.toggleLoading.bind(this);
+    // eslint-disable-next-line react/destructuring-assignment
+    // eslint-disable-next-line react/prop-types
+    this.props.eventSubscribers.playBackLoaded.push(this.toggleLoading);
   }
 
   toggleFavorite() {
@@ -23,18 +30,31 @@ class BarMusicPlayer extends React.Component {
     }));
   }
 
-  async togglePlay() {
+  // eslint-disable-next-line class-methods-use-this
+  toggleLoading(loaded){
+    console.log(`Going to toggle loading.`);
+    this.setState(() => ({isLoaded:loaded}));
+  }
+
+  togglePlay() {
     this.setState(prev => ({
-      paused: !prev.paused
-    }));
-    const {paused} = this.state;
-    const {  playPauseCallBack } = this.props;
-    playPauseCallBack(paused);
+        paused: !prev.paused
+      }),
+      () => {
+      const { paused } = this.state;
+      // eslint-disable-next-line no-console
+      console.log(`Paused=${paused}`);
+      // eslint-disable-next-line react/prop-types
+      const { playPauseCallBack } = this.props;
+      console.log(`DEBUG[INFO]: Play=${!paused}!`);
+      // This is a bit misleading it should have been !paused FIXME
+      playPauseCallBack(paused);
+    });
   }
 
   render() {
     const { navigation, song } = this.props;
-    const { favorited, paused } = this.state;
+    const { favorited, paused, isLoaded} = this.state;
 
     const favoriteColor = favorited ? colors.brandPrimary : colors.white;
     const favoriteIcon = favorited ? 'heart' : 'heart-o';
@@ -70,6 +90,8 @@ class BarMusicPlayer extends React.Component {
             </View>
           </View>
         )}
+        {isLoaded &&
+        // eslint-disable-next-line react/jsx-wrap-multilines
         <TouchableOpacity
           activeOpacity={gStyle.activeOpacity}
           hitSlop={{ bottom: 10, left: 10, right: 10, top: 10 }}
@@ -78,6 +100,10 @@ class BarMusicPlayer extends React.Component {
         >
           <FontAwesome color={colors.white} name={iconPlay} size={28} />
         </TouchableOpacity>
+        }
+        {!isLoaded && 
+          <Text style={styles.title}>LOADING</Text>
+        }
       </TouchableOpacity>
     );
   }

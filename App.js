@@ -19,7 +19,14 @@ export default class App extends React.Component {
     this.isSeeking = false;
     this.shouldPlayAtEndOfSeek = false;
     this.playbackInstance = null;
-
+    this.eventSubscribers = {
+      'playBackLoaded':[],
+      'playBackChanged':[]
+    };
+    this.changeSong = this.changeSong.bind(this);
+    this.playSong = this.playSong.bind(this);
+    this.playbackLoadedNotifier = this.playbackLoadedNotifier.bind(this);
+    this.setToggleTabBar = this.setToggleTabBar.bind(this);
     this.state = {
       playbackInstanceName: LOADING_STRING,
       loopingType: LOOPING_TYPE_ALL,
@@ -29,6 +36,7 @@ export default class App extends React.Component {
       shouldPlay: false,
       isPlaying: false,
       isBuffering: false,
+      playBackLoading:true,
       isLoading: true,
       fontLoaded: false,
       shouldCorrectPitch: true,
@@ -46,13 +54,8 @@ export default class App extends React.Component {
         title: 'So It Goes',
         audio: ""
       },
-      isLoading: true,
       toggleTabBar: false
     };
-
-    this.changeSong = this.changeSong.bind(this);
-    this.playSong = this.playSong.bind(this);
-    this.setToggleTabBar = this.setToggleTabBar.bind(this);
   }
 
   componentDidMount() {
@@ -81,6 +84,11 @@ export default class App extends React.Component {
       // this.playbackInstance.setOnPlaybackStatusUpdate(null);
       this.playbackInstance = null;
     }
+    // Notify file is read for play.
+    for (var i = 0; i < this.eventSubscribers.playBackLoaded.length; i++){
+       console.log(`Notifying subscribers.`)
+       this.eventSubscribers.playBackLoaded[i](false);
+    }
     const { currentSongData: { audio, title } } = this.state
     const source = { uri: audio };
     const initialStatus = {
@@ -100,7 +108,11 @@ export default class App extends React.Component {
       this._onPlaybackStatusUpdate
     );
     this.playbackInstance = sound;
-
+    // Notify file is read for play.
+    for (var i = 0; i < this.eventSubscribers.playBackLoaded.length; i++){
+       console.log(`Notifying subscribers.`)
+       this.eventSubscribers.playBackLoaded[i](true);
+    }
     this._updateScreenForLoading(false);
   }
 
@@ -127,23 +139,27 @@ export default class App extends React.Component {
       }
     }
   };
-
-  _updateScreenForLoading(isLoading) {
+   _updateScreenForLoading(isLoading) {
     if (isLoading) {
       this.setState({
         isPlaying: false,
         playbackInstanceName: LOADING_STRING,
         playbackInstanceDuration: null,
         playbackInstancePosition: null,
-        isLoading: true
+        playBackLoading: true
       });
     } else {
       const { currentSongData: { title } } = this.state
       this.setState({
         playbackInstanceName: title,
-        isLoading: false
+        playBackLoading: false
       });
     }
+  }
+  // Play back load status
+  playbackLoadedNotifier(subscriber) {
+     console.log(`Registered a subscriber.`)
+     this.playbackLoadedSubscribers.push(subscriber);
   }
 
   _onPlayPausePressed = () => {
@@ -168,7 +184,7 @@ export default class App extends React.Component {
     console.log(`App.ChangeSong called. with TITLE:${data.title} and URL:${data.audio}`)
     if (data.audio !== "") {
       // Synchronize song update with playbackInstance object creation.
-      loadPlayer = () => { this._loadNewPlaybackInstance(false) }
+      let loadPlayer = () => { this._loadNewPlaybackInstance(false) }
       this.setState({
         currentSongData: data
       }, loadPlayer);
@@ -180,13 +196,14 @@ export default class App extends React.Component {
   }
 
   playSong(play) {
-    this.setState({ isPlaying: play });
-    this._onPlayPausePressed();
+    this.setState({ isPlaying: play }, () => {
+      this._onPlayPausePressed();
+    });
   }
 
   render() {
     const { currentSongData, isLoading, toggleTabBar } = this.state;
-
+    const eventSubscribers = this.eventSubscribers;
     if (isLoading) {
       return (
         <AppLoading
@@ -203,6 +220,7 @@ export default class App extends React.Component {
         <Stack
           screenProps={{
             currentSongData,
+            eventSubscribers,
             changeSong: this.changeSong,
             playPauseCallBack: this.playSong,
             setToggleTabBar: this.setToggleTabBar,
