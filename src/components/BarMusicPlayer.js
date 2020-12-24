@@ -19,8 +19,6 @@ class BarMusicPlayer extends React.Component {
     this.toggleFavorite = this.toggleFavorite.bind(this);
     this.togglePlay = this.togglePlay.bind(this);
     this.toggleLoading=this.toggleLoading.bind(this);
-    // eslint-disable-next-line react/destructuring-assignment
-    // eslint-disable-next-line react/prop-types
     this.props.eventSubscribers.playBackLoaded.push(this.toggleLoading);
   }
 
@@ -34,6 +32,8 @@ class BarMusicPlayer extends React.Component {
   toggleLoading(loaded){
     console.log(`Going to toggle loading.`);
     this.setState(() => ({isLoaded:loaded}));
+    // Reset play
+    this.setState(()=>({paused: true}));
   }
 
   togglePlay() {
@@ -42,9 +42,7 @@ class BarMusicPlayer extends React.Component {
       }),
       () => {
       const { paused } = this.state;
-      // eslint-disable-next-line no-console
       console.log(`Paused=${paused}`);
-      // eslint-disable-next-line react/prop-types
       const { playPauseCallBack } = this.props;
       console.log(`DEBUG[INFO]: Play=${!paused}!`);
       // This is a bit misleading it should have been !paused FIXME
