@@ -8,19 +8,35 @@ import { colors, device, func, gStyle, images } from '../constants';
 import ModalHeader from '../components/ModalHeader';
 import TouchIcon from '../components/TouchIcon';
 
+import ExpoAdioPlayer from '../playback/playback';
+
 class ModalMusicPlayer extends React.Component {
   constructor(props) {
     super(props);
+    const { eventSubscribers, paused } = this.props.navigation.state.params;
+    eventSubscribers.playBackLoaded.push(this.toggleLoading);
 
     this.state = {
       favorited: false,
-      paused: true
+      paused: paused
     };
-
     this.toggleFavorite = this.toggleFavorite.bind(this);
     this.togglePlay = this.togglePlay.bind(this);
   }
 
+  toggleLoading(loaded) {
+    //this.setState(() => ({ isLoaded: loaded }));
+    // Reset play
+    this.setState(() => ({ paused: true }));
+  }
+
+  _onPlayPausePressed = () => {
+    if (this.state.paused) {
+      ExpoAdioPlayer.pause();
+    } else {
+      ExpoAdioPlayer.play();
+    }
+  };
   toggleFavorite() {
     this.setState(prev => ({
       favorited: !prev.favorited
@@ -30,7 +46,7 @@ class ModalMusicPlayer extends React.Component {
   togglePlay() {
     this.setState(prev => ({
       paused: !prev.paused
-    }));
+    }), this._onPlayPausePressed);
   }
 
   render() {

@@ -28,9 +28,7 @@ class BarMusicPlayer extends React.Component {
     }));
   }
 
-  // eslint-disable-next-line class-methods-use-this
   toggleLoading(loaded){
-    console.log(`Going to toggle loading.`);
     this.setState(() => ({isLoaded:loaded}));
     // Reset play
     this.setState(()=>({paused: true}));
@@ -38,20 +36,18 @@ class BarMusicPlayer extends React.Component {
 
   togglePlay() {
     this.setState(prev => ({
-        paused: !prev.paused
-      }),
+      paused: !prev.paused
+    }),
       () => {
-      const { paused } = this.state;
-      console.log(`Paused=${paused}`);
-      const { playPauseCallBack } = this.props;
-      console.log(`DEBUG[INFO]: Play=${!paused}!`);
-      // This is a bit misleading it should have been !paused FIXME
-      playPauseCallBack(paused);
-    });
+        const { paused } = this.state;
+        const { playPauseCallBack } = this.props;
+        // This is a bit misleading it should have been !paused FIXME
+        playPauseCallBack(paused);
+      });
   }
 
   render() {
-    const { navigation, song } = this.props;
+    const { navigation, song, eventSubscribers } = this.props;
     const { favorited, paused, isLoaded} = this.state;
 
     const favoriteColor = favorited ? colors.brandPrimary : colors.white;
@@ -61,7 +57,7 @@ class BarMusicPlayer extends React.Component {
     return (
       <TouchableOpacity
         activeOpacity={1}
-        onPress={() => navigation.navigate('ModalMusicPlayer')}
+        onPress={() => navigation.navigate('ModalMusicPlayer',{eventSubscribers, paused})}
         style={styles.container}
       >
         <TouchableOpacity
