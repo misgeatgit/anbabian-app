@@ -7,7 +7,6 @@ import { colors, device, gStyle } from '../constants';
 import AlbumsHorizontal from '../components/AlbumsHorizontal';
 
 // mock data
-//import heavyRotation from '../mockdata/heavyRotation';
 import heavyRotation from '../mockdata/heavyRotationAM';
 import jumpBackIn from '../mockdata/jumpBackIn';
 import recentlyPlayed from '../mockdata/recentlyPlayed';
