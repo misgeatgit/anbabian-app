@@ -1,4 +1,8 @@
-import { createAppContainer, createStackNavigator } from 'react-navigation';
+import {
+  createAppContainer,
+  createStackNavigator,
+  createSwitchNavigator
+} from 'react-navigation';
 
 // modal routes (dynamic transitions)
 import ModalRoutes from './ModalRoutes';
@@ -9,6 +13,8 @@ import TabNavigation from './TabNavigation';
 // screens
 import ModalMusicPlayer from '../screens/ModalMusicPlayer';
 import ModalMoreOptions from '../screens/ModalMoreOptions';
+import AuthLoadingScreen from '../screens/AuthLoadingScreen';
+import SignInScreen from '../screens/SignInScreen';
 
 const StackNavigator = createStackNavigator(
   {
@@ -40,6 +46,22 @@ const StackNavigator = createStackNavigator(
   }
 );
 
-const App = createAppContainer(StackNavigator);
+const AuthStack = createStackNavigator(
+  { SignIn: SignInScreen },
+  { headerMode: 'none' }
+);
+
+const App = createAppContainer(
+  createSwitchNavigator(
+    {
+      AuthLoading: AuthLoadingScreen,
+      App: StackNavigator,
+      Auth: AuthStack
+    },
+    {
+      initialRouteName: 'AuthLoading'
+    }
+  )
+);
 
 export default App;
