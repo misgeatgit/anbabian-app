@@ -15,6 +15,7 @@ import ModalMusicPlayer from '../screens/ModalMusicPlayer';
 import ModalMoreOptions from '../screens/ModalMoreOptions';
 import AuthLoadingScreen from '../screens/AuthLoadingScreen';
 import SignInScreen from '../screens/SignInScreen';
+import SignUpScreen from '../screens/SignUpScreen';
 
 const StackNavigator = createStackNavigator(
   {
@@ -47,8 +48,14 @@ const StackNavigator = createStackNavigator(
 );
 
 const AuthStack = createStackNavigator(
-  { SignIn: SignInScreen },
-  { headerMode: 'none' }
+  {
+    SignIn: SignInScreen,
+    SignUp: SignUpScreen
+  },
+  {
+    initialRouteName: 'SignIn',
+    headerMode: 'none'
+  }
 );
 
 const App = createAppContainer(

@@ -18,6 +18,7 @@ class SignInScreen extends React.Component {
         }
     }
     render() {
+        const {navigation} = this.props;
         return (
             <React.Fragment>
             <View style={styles.container}>
@@ -44,7 +45,7 @@ class SignInScreen extends React.Component {
                     <Text style={styles.loginText} onPress={this._signInAsync}>LOGIN</Text>
                 </TouchableOpacity>
                 <TouchableOpacity>
-                    <Text style={styles.loginText}>Signup</Text>
+                    <Text style={styles.loginText} onPress={()=>navigation.navigate('SignUp')}>Signup</Text>
                 </TouchableOpacity>
             </View>
       </React.Fragment>
