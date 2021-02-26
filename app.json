@@ -6,11 +6,8 @@
     "slug": "spotifyclone",
     "privacy": "public",
     "version": "0.0.1",
-    "platforms": [
-      "android",
-      "ios",
-      "web"
-    ],
+    "sdkVersion": "37.0.0",
+    "platforms": ["android", "ios", "web"],
     "githubUrl": "https://github.com/calebnance/expo-spotify",
     "orientation": "portrait",
     "primaryColor": "#181414",
@@ -23,9 +20,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "android": {
       "versionCode": 1
     },
