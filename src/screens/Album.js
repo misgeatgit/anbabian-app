@@ -216,6 +216,9 @@ class Album extends React.Component {
               <LinearGradient fill={colors.black20} height={50} />
             </Animated.View>
             <View style={styles.containerShuffle}>
+              <Text style={styles.btnText}>90 Birr</Text>
+            </View>
+            <View style={styles.containerShuffle}>
               <TouchText
                 onPress={() => null}
                 style={styles.btn}
