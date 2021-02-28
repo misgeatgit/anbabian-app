@@ -1,5 +1,12 @@
 import React from 'react';
-import { StyleSheet, TextInput, View } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
+} from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 class SignUpScreen extends React.Component {
   constructor(props) {
@@ -24,6 +31,14 @@ class SignUpScreen extends React.Component {
               onChangeText={text => this.setState({ email: text })}
             />
           </View>
+          {/* <View style={styles.inputView}>
+            <DateTimePicker
+              testID="dateTimePicker"
+              is24Hour
+              value={new Date(1598051730000)}
+              display="default"
+            />
+          </View> */}
           <View style={styles.inputView}>
             <TextInput
               secureTextEntry
@@ -33,6 +48,18 @@ class SignUpScreen extends React.Component {
               onChangeText={text => this.setState({ password1: text })}
             />
           </View>
+          <View style={styles.inputView}>
+            <TextInput
+              secureTextEntry
+              style={styles.inputText}
+              placeholder="Password..."
+              placeholderTextColor="#003f5c"
+              onChangeText={text => this.setState({ password2: text })}
+            />
+          </View>
+          <TouchableOpacity style={styles.loginBtn}>
+            <Text style={styles.loginText}>SIGNUP</Text>
+          </TouchableOpacity>
         </View>
       </React.Fragment>
     );
@@ -58,7 +85,20 @@ const styles = StyleSheet.create({
     height: 50,
     marginBottom: 20,
     justifyContent: 'center',
-    padding: 20
+    padding: 5
+  },
+  loginBtn: {
+    width: '80%',
+    backgroundColor: '#45D15B',
+    borderRadius: 0,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 40,
+    marginBottom: 10
+  },
+  loginText: {
+    color: 'white'
   }
 });
 
