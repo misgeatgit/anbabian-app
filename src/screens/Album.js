@@ -220,7 +220,7 @@ class Album extends React.Component {
                 onPress={() => null}
                 style={styles.btn}
                 styleText={styles.btnText}
-                text="Shuffle Play"
+                text="Buy"
               />
             </View>
           </View>
@@ -360,10 +360,10 @@ const styles = StyleSheet.create({
     width: '100%'
   },
   btn: {
-    backgroundColor: colors.brandPrimary,
-    borderRadius: 25,
-    height: 50,
-    width: 220
+    backgroundColor: '#FF4571',
+    borderRadius: 0,
+    height: 30,
+    width: 150
   },
   btnText: {
     ...gStyle.textSpotifyBold16,
