@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Image, Slider, StyleSheet, Text, View } from 'react-native';
-import { Feather, FontAwesome, MaterialIcons } from '@expo/vector-icons';
+//import {Slider} from '@react-native-community/slider'
+import { Feather, FontAwesome } from '@expo/vector-icons';
 import { colors, device, func, gStyle, images } from '../constants';
 
 // components
@@ -80,12 +81,6 @@ class ModalMusicPlayer extends React.Component {
               </Text>
               <Text style={styles.artist}>{currentSongData.artist}</Text>
             </View>
-            <View style={styles.containerFavorite}>
-              <TouchIcon
-                icon={<FontAwesome color={favoriteColor} name={favoriteIcon} />}
-                onPress={this.toggleFavorite}
-              />
-            </View>
           </View>
 
           <View style={styles.containerVolume}>
@@ -100,13 +95,7 @@ class ModalMusicPlayer extends React.Component {
               <Text style={styles.time}>{`-${timeLeft}`}</Text>
             </View>
           </View>
-
-          <View style={styles.containerControls}>
-            <TouchIcon
-              icon={<Feather color={colors.greyLight} name="shuffle" />}
-              onPress={() => null}
-            />
-            <View style={gStyle.flexRowCenterAlign}>
+            <View style={[gStyle.flexRowCenterAlign, {justifyContent: 'center'}]}>
               <TouchIcon
                 icon={<FontAwesome color={colors.white} name="step-backward" />}
                 iconSize={32}
@@ -125,24 +114,6 @@ class ModalMusicPlayer extends React.Component {
                 onPress={() => null}
               />
             </View>
-            <TouchIcon
-              icon={<Feather color={colors.greyLight} name="repeat" />}
-              onPress={() => null}
-            />
-          </View>
-
-          <View style={styles.containerBottom}>
-            <TouchIcon
-              icon={<Feather color={colors.greyLight} name="speaker" />}
-              onPress={() => null}
-            />
-            <TouchIcon
-              icon={
-                <MaterialIcons color={colors.greyLight} name="playlist-play" />
-              }
-              onPress={() => null}
-            />
-          </View>
         </View>
       </View>
     );

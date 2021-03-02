@@ -2,7 +2,7 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { FontAwesome } from '@expo/vector-icons';
 import { colors, device, gStyle } from '../constants';
@@ -14,7 +14,7 @@ class BarMusicPlayer extends React.Component {
     this.state = {
       favorited: false,
       paused: true,
-      isLoaded: false //for sound
+      isLoaded: false // for sound
     };
     this.toggleFavorite = this.toggleFavorite.bind(this);
     this.togglePlay = this.togglePlay.bind(this);
@@ -48,10 +48,8 @@ class BarMusicPlayer extends React.Component {
 
   render() {
     const { navigation, song, eventSubscribers } = this.props;
-    const { favorited, paused, isLoaded} = this.state;
+    const { paused, isLoaded} = this.state;
 
-    const favoriteColor = favorited ? colors.brandPrimary : colors.white;
-    const favoriteIcon = favorited ? 'heart' : 'heart-o';
     const iconPlay = paused ? 'play-circle' : 'pause-circle';
 
     return (
@@ -65,24 +63,12 @@ class BarMusicPlayer extends React.Component {
           hitSlop={{ bottom: 10, left: 10, right: 10, top: 10 }}
           onPress={this.toggleFavorite}
           style={styles.containerIcon}
-        >
-          <FontAwesome color={favoriteColor} name={favoriteIcon} size={20} />
-        </TouchableOpacity>
+        />
         {song && (
-          <View>
-            <View style={styles.containerSong}>
-              <Text style={styles.title}>{`${song.title} · `}</Text>
-              <Text style={styles.artist}>{song.artist}</Text>
-            </View>
-            <View style={[gStyle.flexRowCenter, gStyle.mTHalf]}>
-              <FontAwesome
-                color={colors.brandPrimary}
-                name="bluetooth-b"
-                size={14}
-              />
-              <Text style={styles.device}>Caleb&apos;s Beatsx</Text>
-            </View>
-          </View>
+        <View style={styles.containerSong}>
+          <Text style={styles.title}>{`${song.title} · `}</Text>
+          <Text style={styles.artist}>{song.album}</Text>
+        </View>
         )}
         {isLoaded &&
         // eslint-disable-next-line react/jsx-wrap-multilines
@@ -96,7 +82,7 @@ class BarMusicPlayer extends React.Component {
         </TouchableOpacity>
         }
         {!isLoaded && 
-          <Text style={styles.title}>LOADING</Text>
+          <ActivityIndicator size="small" color="white" style={styles.activityIndicator} />
         }
       </TouchableOpacity>
     );
@@ -151,6 +137,9 @@ const styles = StyleSheet.create({
     color: colors.brandPrimary,
     marginLeft: 4,
     textTransform: 'uppercase'
+  },
+  activityIndicator: {
+    marginRight: 5
   }
 });
 
