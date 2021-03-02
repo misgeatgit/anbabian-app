@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^10.0.0",
+    "@react-native-community/datetimepicker": "2.2.2",
     "expo": "^37.0.0",
     "expo-app-loading": "^1.0.1",
     "expo-asset": "~8.1.3",
