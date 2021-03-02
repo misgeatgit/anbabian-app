@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 /*
 Responsible for downloading, encrypting/saving and and decrypting/loading audio.
 */
@@ -20,12 +21,27 @@ import * as FileSystem from 'expo-file-system';
 import * as SQLite from 'expo-sqlite';
 
 const db = SQLite.openDatabase('audiodb.db');
+
+async function download(url) {
+  return new Promise((resolve, reject) => {
+    FileSystem.downloadAsync(
+      url,
+      FileSystem.documentDirectory + url.split('/').pop()
+    )
+      .then(({ uri }) => {
+        resolve(uri);
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+}
+
 /*
 Expo based Audio player.
 */
 class AudioPlayer {
-  constructor(cacheSize) {
-    this.cacheSize = cacheSize;
+  constructor() {
     this.playbackInstance = null;
     this.speed = 1;
     this.cache = {};
@@ -33,6 +49,10 @@ class AudioPlayer {
       playBackLoaded: [],
       playBackChanged: []
     };
+
+    this.notifyPlaybackChanged = this.notifyPlaybackChanged.bind(this);
+    this.notifyPlaybackLoaded = this.notifyPlaybackLoaded.bind(this);
+
     Audio.setAudioModeAsync({
       allowsRecordingIOS: false,
       staysActiveInBackground: false,
@@ -58,10 +78,11 @@ class AudioPlayer {
    Returns the file path to audio file.
    @param id audio id
   */
+  // eslint-disable-next-line class-methods-use-this
   getAudioLocation(id) {
-    //TODO implement
-    return;
+    // TODO implement
   }
+
   /*
     Stores the audio file path in the sqlite database.
     @param id
@@ -69,8 +90,7 @@ class AudioPlayer {
     @param path
   */
   persistAudioLocation(id, albumId, path) {
-    //TODO implement
-    return;
+    // TODO implement
   }
 
   notifyPlaybackLoaded(isLoaded) {
@@ -80,34 +100,23 @@ class AudioPlayer {
   }
 
   notifyPlaybackChanged(isChanged) {
+    console.log('Inside notifier.');
     for (let i = 0; i < this.eventSubscribers.playBackLoaded.length; i++) {
       this.eventSubscribers.playBackChanged[i](isChanged);
     }
   }
 
-  async download(url) {
-    let dir = undefined;
-    await FileSystem.downloadAsync(url, FileSystem.documentDirectory + url.split('/').pop())
-      .then(({ uri }) => {
-        dir = uri;
-      })
-      .catch(error => {
-        console.error(error);
-      });
-    return dir;
-  }
-
-
-  onPlaybackStatusUpdate(playbackStatus) {
+  onPlaybackStatusUpdate(playbackStatus, params) {
     if (!playbackStatus.isLoaded) {
       // Update your UI for the unloaded state
       if (playbackStatus.error) {
-        console.log(`Encountered a fatal error during playback: ${playbackStatus.error}`);
+        console.log(
+          `Encountered a fatal error during playback: ${playbackStatus.error}`
+        );
         // Send Expo team the error on Slack or the forums so we can help you debug!
       }
     } else {
       // Update your UI for the loaded state
-
       if (playbackStatus.isPlaying) {
         // Update your UI for the playing state
       } else {
@@ -139,12 +148,17 @@ class AudioPlayer {
     }
 
     if (!(source.uri in this.cache)) {
-      const uri = await this.download(source.uri);
-      this.cache[source.uri] = uri;
-      console.log('Downloaded to ', uri);
+      try {
+        const uri = await download(source.uri);
+        this.cache[source.uri] = uri;
+        console.log('Downloaded to ', uri);
+      } catch (err) {
+        console.log(err);
+      }
     }
     // Set uri to local directory path
     source.uri = this.cache[source.uri];
+
     const { sound } = await Audio.Sound.createAsync(
       source,
       initialStatus,
