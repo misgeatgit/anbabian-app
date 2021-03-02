@@ -16,5 +16,8 @@ export default {
   greyLight: '#bebebe',
   greySwitchBorder: '#404040',
   greyOff: '#3e3e3e',
-  grey3: '#333'
+  grey3: '#333',
+  springWood: '#F4F1EA',
+  zeus: '#1E1915',
+  delta: '#B1B0AC',
 };
