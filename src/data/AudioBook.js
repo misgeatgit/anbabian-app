@@ -18,7 +18,16 @@ class AudioBook {
 function createAudioBooks(data) {
   const books = [];
   Object.values(data).forEach(b => {
-    const book = new AudioBook(b.title, b.author, b.front_cover, b.synopsis);
+    const bookChapters = [];
+    const sample = b.sample ? b.sample : null;
+    Object.values(b.book_chapter).forEach(bc => {
+      bookChapters.push({
+        audio_file: bc.audio_file,
+        chapter: bc.chapter
+      });
+    });
+    const params = {sample: sample, chapters: bookChapters};
+    const book = new AudioBook(b.title, b.author, b.front_cover, b.synopsis, params);
     books.push(book);
   });
 
@@ -49,15 +58,13 @@ function fetchMockData() {
   const data = __DEV__ ? require('../mockdata/books.json') : [];
   return createAudioBooks(data);
 }
-function fetchAudioBooksFromStorage(isMockData = false) {
+function fetchAudioBooksFromStorage() {
   const books = null;
   return books;
 }
 
 // Save
-function saveAudioBooks(books) {
-
-}
+function saveAudioBooks(books) {}
 
 // Refresh AudioBook list
 function refreshAudioBookList(since) {
