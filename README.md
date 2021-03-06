@@ -1,4 +1,6 @@
-# Spotify Clone with Expo
+[![anbabian-app CI](https://github.com/misgeatgit/anbabian-app/actions/workflows/CI.yml/badge.svg)](https://github.com/misgeatgit/anbabian-app/actions/workflows/CI.yml)
+
+# Anbabian app based on [expo-spotify](https://github.com/calebnance/expo-spotify)
 
 web demo: [Expo Spotify](https://expo-spotify.calebnance.now.sh)
 
