@@ -10,6 +10,9 @@
     "react navigation",
     "spotify"
   ],
+  "jest": {
+    "globals": {"__DEV__": true}
+  },
   "private": true,
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
