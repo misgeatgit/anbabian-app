@@ -14,6 +14,7 @@
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "dev": "expo start",
+    "prod": "expo --no-dev --minify",
     "start": "expo start",
     "lint": "eslint ./src",
     "android": "expo start --android",
