@@ -14,6 +14,7 @@
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "dev": "expo start",
+    "test" : "jest",
     "prod": "expo --no-dev --minify",
     "start": "expo start",
     "lint": "eslint ./src",
@@ -27,6 +28,7 @@
     "@expo/vector-icons": "^10.0.0",
     "@react-native-community/datetimepicker": "2.2.2",
     "@react-native-community/slider": "^3.0.3",
+    "axios": "^0.21.1",
     "expo": "^37.0.0",
     "expo-app-loading": "^1.0.1",
     "expo-asset": "~8.1.3",
@@ -54,6 +56,7 @@
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-react": "^7.13.0",
+    "jest": "^26.6.3",
     "prettier": "^1.17.1"
   },
   "prettier": {
