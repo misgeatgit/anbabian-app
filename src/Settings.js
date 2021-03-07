@@ -7,4 +7,6 @@ const ENDPOINTS = {
   JWTrefreshToken: `${BASE_URL}login/refresh/`
 };
 
-export { BASE_URL, ENDPOINTS };
+const AnbabianDB = 'anbabian.db';
+
+export { AnbabianDB, BASE_URL, ENDPOINTS };
