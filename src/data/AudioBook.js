@@ -1,9 +1,36 @@
-import ENDPOINTS from '../Settings';
 import * as FileSystem from 'expo-file-system';
+import * as SQLite from 'expo-sqlite';
+import { AnbabianDB } from '../Settings';
 
-const axios = require('axios');
+const crypto = require('crypto');
 
-class AudioBook {
+const createBookDBSQLString = `
+PRAGMA encoding = "UTF-8"; 
+
+CREATE TABLE IF NOT EXISTS 
+	book (id       INTEGER PRIMARY KEY, --A hash of author and title
+          author   TEXT not NULL,
+          title    TEXT NOT NULL,
+          synopsis TEXT);
+ 
+CREATE TABLE IF NOT EXISTS 
+	audiofiles (id 		    inTEGER PRIMARY KEY,
+                path 	    TEXT NOT NULL,
+                url         TEXT NOT NULL,
+                name        TEXT NOT NULL,
+                paused_at   INTEGER,
+                book_id		TEXT not NULL,
+                FOREIGN KEY (book_id) REFERENCES book(id) ON DELETE CASCADE);
+`;
+
+const db = SQLite.openDatabase(AnbabianDB);
+
+function createBoksDB() {
+  db.exec([{ sql: createBookDBSQLString, args: [] }], false, () =>
+    console.log('Foreign keys turned on')
+  );
+}
+
 async function download(url) {
   return new Promise((resolve, reject) => {
     FileSystem.downloadAsync(
@@ -20,6 +47,7 @@ async function download(url) {
   });
 }
 
+export class AudioBook {
   constructor(title, author, frontCover, synopsis, kwargs) {
     this.title = title;
     this.author = author;
@@ -30,8 +58,66 @@ async function download(url) {
       this.chapters = kwargs.chapters;
     }
   }
-}
 
+  async persistChapter(chapter, bookId) {
+    const path = await download(chapter.audio_file);
+    const insertQuery = `INSERT INTO audiofiles (path, url, name, book_id) values (?. ?, ?, ?)`;
+    db.transaction(
+      tx => {
+        tx.executeSql(insertQuery, [
+          path,
+          chapter.url,
+          chapter.audio_file,
+          bookId
+        ]);
+      },
+      error => {
+        throw error;
+      },
+      null
+    );
+    return path;
+  }
+
+  /*
+     @param chapter {audio_file:'', chapter:''}
+     @returns local url
+    */
+  async getLocalURL(chapter) {
+    let url = '';
+    const hash = crypto.createHash('MD5');
+    hash.update(`${this.author}${this.title}`);
+    const fkey = hash.digest('hex');
+    const query = `SELECT * FROM audiofiles WHERE book_id=${fkey}`;
+    // See resultsetObject here https://docs.expo.io/versions/latest/sdk/sqlite/#transaction--objects
+    db.transaction(tx => {
+      tx.executeSql(
+        query,
+        [],
+        (_, { rows }) => {
+          if (rows.length < 1) {
+            let r = '';
+            this.persistChapter(chapter, fkey)
+              .then(path => {
+                r = path;
+              })
+              .catch(error => {
+                throw error;
+              });
+            url = r;
+          } else {
+            url = rows.item(0).path;
+          }
+        },
+        error => {
+          throw error;
+        }
+      );
+    });
+
+    return url;
+  }
+}
 function createAudioBooks(data) {
   const books = [];
   Object.values(data).forEach(b => {
@@ -43,30 +129,18 @@ function createAudioBooks(data) {
         chapter: bc.chapter
       });
     });
-    const params = {sample: sample, chapters: bookChapters};
-    const book = new AudioBook(b.title, b.author, b.front_cover, b.synopsis, params);
+    const params = { sample, chapters: bookChapters };
+    const book = new AudioBook(
+      b.title,
+      b.author,
+      b.front_cover,
+      b.synopsis,
+      params
+    );
     books.push(book);
   });
 
   return books;
-}
-/* Fetch N Audiobooks
- @params {String} url  
-*/
-function fetchAudioBooks(errorHandler) {
-  const url = ENDPOINTS.Books;
-  const accesstoken = '';
-  const config = {
-    method: 'get',
-    url,
-    headers: {
-      Authorization: `Bearer ${accesstoken}`
-    }
-  };
-
-  axios(config)
-    .then(createAudioBooks)
-    .catch(errorHandler);
 }
 
 function fetchMockData() {
@@ -75,17 +149,5 @@ function fetchMockData() {
   const data = __DEV__ ? require('../mockdata/books.json') : [];
   return createAudioBooks(data);
 }
-function fetchAudioBooksFromStorage() {
-  const books = null;
-  return books;
-}
 
-// Save
-function saveAudioBooks(books) {}
-
-// Refresh AudioBook list
-function refreshAudioBookList(since) {
-  // fetchAudioBooks(since)
-}
-
-export { fetchMockData };
+export { download, fetchMockData };
