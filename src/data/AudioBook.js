@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS
 const db = SQLite.openDatabase(AnbabianDB);
 
 function createBoksDB() {
-  db.exec([{ sql: createBookDBSQLString, args: [] }], false, () =>
+  db.exec([{ sql: createBookDBSQLString, args: [] }], false, error =>
     console.log('Foreign keys turned on')
   );
 }
@@ -46,6 +46,68 @@ async function download(url) {
       });
   });
 }
+async function persistChapter(chapter, bookId) {
+  const path = await download(chapter.audio_file);
+  const insertQuery = `INSERT INTO audiofiles (path, url, name, book_id) values (?. ?, ?, ?)`;
+  db.transaction(
+    tx => {
+      tx.executeSql(insertQuery, [
+        path,
+        chapter.url,
+        chapter.audio_file,
+        bookId
+      ]);
+    },
+    error => {
+      throw error;
+    },
+    null
+  );
+  return path;
+}
+
+function generateBookId(book) {
+  const hash = crypto.createHash('MD5');
+  hash.update(`${book.author}${book.title}`);
+  const fkey = hash.digest('hex');
+  return fkey;
+}
+/*
+     @param chapter {audio_file:'', chapter:''}
+     @returns local url
+    */
+async function getLocalURL(book, chapter) {
+  let url = '';
+  const fkey = generateBookId(book);
+  const query = `SELECT * FROM audiofiles WHERE book_id=${fkey}`;
+  // See resultsetObject here https://docs.expo.io/versions/latest/sdk/sqlite/#transaction--objects
+  db.transaction(tx => {
+    tx.executeSql(
+      query,
+      [],
+      (_, { rows }) => {
+        if (rows.length < 1) {
+          let r = '';
+          this.persistChapter(chapter, fkey)
+            .then(path => {
+              r = path;
+            })
+            .catch(error => {
+              throw error;
+            });
+          url = r;
+        } else {
+          url = rows.item(0).path;
+        }
+      },
+      error => {
+        throw error;
+      }
+    );
+  });
+
+  return url;
+}
 
 export class AudioBook {
   constructor(title, author, frontCover, synopsis, kwargs) {
@@ -58,66 +120,8 @@ export class AudioBook {
       this.chapters = kwargs.chapters;
     }
   }
-
-  async persistChapter(chapter, bookId) {
-    const path = await download(chapter.audio_file);
-    const insertQuery = `INSERT INTO audiofiles (path, url, name, book_id) values (?. ?, ?, ?)`;
-    db.transaction(
-      tx => {
-        tx.executeSql(insertQuery, [
-          path,
-          chapter.url,
-          chapter.audio_file,
-          bookId
-        ]);
-      },
-      error => {
-        throw error;
-      },
-      null
-    );
-    return path;
-  }
-
-  /*
-     @param chapter {audio_file:'', chapter:''}
-     @returns local url
-    */
-  async getLocalURL(chapter) {
-    let url = '';
-    const hash = crypto.createHash('MD5');
-    hash.update(`${this.author}${this.title}`);
-    const fkey = hash.digest('hex');
-    const query = `SELECT * FROM audiofiles WHERE book_id=${fkey}`;
-    // See resultsetObject here https://docs.expo.io/versions/latest/sdk/sqlite/#transaction--objects
-    db.transaction(tx => {
-      tx.executeSql(
-        query,
-        [],
-        (_, { rows }) => {
-          if (rows.length < 1) {
-            let r = '';
-            this.persistChapter(chapter, fkey)
-              .then(path => {
-                r = path;
-              })
-              .catch(error => {
-                throw error;
-              });
-            url = r;
-          } else {
-            url = rows.item(0).path;
-          }
-        },
-        error => {
-          throw error;
-        }
-      );
-    });
-
-    return url;
-  }
 }
+
 function createAudioBooks(data) {
   const books = [];
   Object.values(data).forEach(b => {
