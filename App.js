@@ -5,6 +5,7 @@ import { func } from './src/constants';
 // main navigation stack
 import Stack from './src/navigation/Stack';
 import ExpoAdioPlayer from './src/playback/playback';
+import {setUpDB} from './Settings'
 
 export default class App extends React.Component {
   constructor(props) {
@@ -23,6 +24,8 @@ export default class App extends React.Component {
       },
       toggleTabBar: false
     };
+    // Create DB
+    setUpDB();
   }
 
   componentDidMount() {
