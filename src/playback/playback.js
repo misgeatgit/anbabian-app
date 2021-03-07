@@ -45,34 +45,6 @@ class AudioPlayer {
       playThroughEarpieceAndroid: false
     });
 
-    // https://github.com/expo/examples/blob/master/with-sqlite/App.js
-    db.transaction(tx => {
-      tx.executeSql(
-        'CREATE TABLE IF NOT EXISTS album (id INTEGER PRIMARY KEY NOT NULL, name TEXT);'
-      );
-      tx.executeSql(
-        'CREATE TABLE IF NOT EXISTS items (id INTEGER PRIMARY KEY NOT NULL, album_id FOREIGN KEY NOT NULL, dir TEXT, paused_at INTEGER);'
-      );
-    });
-  }
-
-  /*
-   Returns the file path to audio file.
-   @param id audio id
-  */
-  // eslint-disable-next-line class-methods-use-this
-  getAudioLocation(id) {
-    // TODO implement
-  }
-
-  /*
-    Stores the audio file path in the sqlite database.
-    @param id
-    @param albumId
-    @param path
-  */
-  persistAudioLocation(id, albumId, path) {
-    // TODO implement
   }
 
   notifyPlaybackLoaded(isLoaded) {
