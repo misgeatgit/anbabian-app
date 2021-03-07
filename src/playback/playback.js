@@ -17,25 +17,7 @@ Responsible for downloading, encrypting/saving and and decrypting/loading audio.
 */
 
 import { Audio } from 'expo-av';
-import * as FileSystem from 'expo-file-system';
-import * as SQLite from 'expo-sqlite';
-
-const db = SQLite.openDatabase('audiodb.db');
-
-async function download(url) {
-  return new Promise((resolve, reject) => {
-    FileSystem.downloadAsync(
-      url,
-      FileSystem.documentDirectory + url.split('/').pop()
-    )
-      .then(({ uri }) => {
-        resolve(uri);
-      })
-      .catch(error => {
-        reject(error);
-      });
-  });
-}
+import download from '../data/AudioBook'
 
 /*
 Expo based Audio player.

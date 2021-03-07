@@ -1,8 +1,25 @@
 import ENDPOINTS from '../Settings';
+import * as FileSystem from 'expo-file-system';
 
 const axios = require('axios');
 
 class AudioBook {
+async function download(url) {
+  return new Promise((resolve, reject) => {
+    FileSystem.downloadAsync(
+      url,
+      // TODO make sure there is no name collision.
+      FileSystem.documentDirectory + url.split('/').pop()
+    )
+      .then(({ uri }) => {
+        resolve(uri);
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+}
+
   constructor(title, author, frontCover, synopsis, kwargs) {
     this.title = title;
     this.author = author;
