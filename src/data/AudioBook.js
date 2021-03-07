@@ -1,35 +1,7 @@
 import * as FileSystem from 'expo-file-system';
-import * as SQLite from 'expo-sqlite';
-import { AnbabianDB } from '../Settings';
+import db from '../Settings';
 
 const crypto = require('crypto');
-
-const createBookDBSQLString = `
-PRAGMA encoding = "UTF-8";
-
-CREATE TABLE IF NOT EXISTS
-    book (id       INTEGER PRIMARY KEY, --A hash of author and title
-          author   TEXT not NULL,
-          title    TEXT NOT NULL,
-          synopsis TEXT);
-
-CREATE TABLE IF NOT EXISTS
-    audiofiles (id          INTEGER PRIMARY KEY,
-                path        TEXT NOT NULL,
-                url         TEXT NOT NULL,
-                name        TEXT NOT NULL,
-                paused_at   INTEGER,
-                book_id     TEXT not NULL,
-                FOREIGN KEY (book_id) REFERENCES book(id) ON DELETE CASCADE);
-`;
-
-const db = SQLite.openDatabase(AnbabianDB);
-
-function createBoksDB() {
-  db.exec([{ sql: createBookDBSQLString, args: [] }], false, error =>
-    console.log('Foreign keys turned on')
-  );
-}
 
 async function download(url) {
   return new Promise((resolve, reject) => {
@@ -46,6 +18,7 @@ async function download(url) {
       });
   });
 }
+
 async function persistChapter(chapter, bookId) {
   const path = await download(chapter.audio_file);
   const insertQuery = `INSERT INTO audiofiles (path, url, name, book_id) values (?. ?, ?, ?)`;
@@ -88,7 +61,7 @@ async function getLocalURL(book, chapter) {
       (_, { rows }) => {
         if (rows.length < 1) {
           let r = '';
-          this.persistChapter(chapter, fkey)
+          persistChapter(chapter, fkey)
             .then(path => {
               r = path;
             })
@@ -154,4 +127,4 @@ function fetchMockData() {
   return createAudioBooks(data);
 }
 
-export { download, fetchMockData };
+export { download, fetchMockData, getLocalURL };
