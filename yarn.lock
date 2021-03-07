@@ -5486,14 +5486,6 @@ expo-splash-screen@0.8.1:
   dependencies:
     "@expo/configure-splash-screen" "0.3.1"
 
-expo-sqlite@^9.0.0:
-  version "9.0.0"
-  resolved "https://registry.yarnpkg.com/expo-sqlite/-/expo-sqlite-9.0.0.tgz#b779dcc7e8bd274487ea97e5927dec7226c88c3f"
-  integrity sha512-EWsMxNYW9dhevTtliE+XrNCACKUqt9rjksv8pXUUw/YxwL4oakOzMonViGWyPlljqWkzur+8P+y+UbFz41F5ug==
-  dependencies:
-    "@expo/websql" "^1.0.1"
-    lodash "^4.17.15"
-
 expo-sqlite@~8.1.0:
   version "8.1.0"
   resolved "https://registry.yarnpkg.com/expo-sqlite/-/expo-sqlite-8.1.0.tgz#858eb28e1143db281de8a49c99b4a953a81d0834"

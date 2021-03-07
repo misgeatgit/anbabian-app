@@ -11,13 +11,15 @@
     "spotify"
   ],
   "jest": {
-    "globals": {"__DEV__": true}
+    "globals": {
+      "__DEV__": true
+    }
   },
   "private": true,
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "dev": "expo start",
-    "test" : "jest",
+    "test": "jest",
     "prod": "expo --no-dev --minify",
     "start": "expo start",
     "lint": "eslint ./src",
@@ -39,7 +41,7 @@
     "expo-blur": "~8.1.0",
     "expo-file-system": "^10.0.0",
     "expo-font": "~8.1.0",
-    "expo-sqlite": "^9.0.0",
+    "expo-sqlite": "~8.1.0",
     "prop-types": "^15.7.2",
     "react": "16.9.0",
     "react-dom": "16.9.0",
