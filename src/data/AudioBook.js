@@ -14,10 +14,10 @@ CREATE TABLE IF NOT EXISTS
           synopsis TEXT);
 
 CREATE TABLE IF NOT EXISTS
-    audiofiles (id      inTEGER PRIMARY KEY,
-                path    TEXT NOT NULL,
-                url     TEXT NOT NULL,
-                name    TEXT NOT NULL,
+    audiofiles (id          INTEGER PRIMARY KEY,
+                path        TEXT NOT NULL,
+                url         TEXT NOT NULL,
+                name        TEXT NOT NULL,
                 paused_at   INTEGER,
                 book_id     TEXT not NULL,
                 FOREIGN KEY (book_id) REFERENCES book(id) ON DELETE CASCADE);
