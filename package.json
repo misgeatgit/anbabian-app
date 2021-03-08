@@ -43,6 +43,7 @@
     "expo-asset": "~8.1.3",
     "expo-av": "~8.1.0",
     "expo-blur": "~8.1.0",
+    "expo-crypto": "~8.1.0",
     "expo-file-system": "~8.1.0",
     "expo-font": "~8.1.0",
     "expo-sqlite": "~8.1.0",

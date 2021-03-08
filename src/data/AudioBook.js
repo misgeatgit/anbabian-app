@@ -1,7 +1,6 @@
 import * as FileSystem from 'expo-file-system';
+import * as Crypto from 'expo-crypto';
 import db from '../Settings';
-
-const crypto = require('crypto');
 
 async function download(url) {
   return new Promise((resolve, reject) => {
@@ -39,10 +38,13 @@ async function persistChapter(chapter, bookId) {
   return path;
 }
 
-function generateBookId(book) {
-  const hash = crypto.createHash('MD5');
-  hash.update(`${book.author}${book.title}`);
-  const fkey = hash.digest('hex');
+async function generateBookId(book) {
+  const fkey = await Crypto.digestStringAsync(
+    Crypto.CryptoDigestAlgorithm.MD5,
+    `${book.author}${book.title}`,
+    { encoding: Crypto.CryptoEncoding.HEX }
+  );
+
   return fkey;
 }
 /*
