@@ -26,11 +26,12 @@ const cacheImages = images => {
 // /////////////////////////////////////////////////////////////////////////////
 const loadAssetsAsync = async () => {
   // preload assets
-  const fontAssets = cacheFonts(preloadFonts);
-  const imageAssets = cacheImages(preloadImages);
+  const fontAssets = await cacheFonts(preloadFonts);
+  const imageAssets = await cacheImages(preloadImages);
 
   // promise load all
-  return Promise.all([...fontAssets, ...imageAssets]);
+  //return Promise.all([...fontAssets, ...imageAssets]);
+  return [...fontAssets, ...imageAssets];
 };
 
 // camera permissions

@@ -22,6 +22,7 @@ export default class App extends React.Component {
         title: 'So It Goes',
         audio: ""
       },
+      isLoading: true,
       toggleTabBar: false
     };
     // Create DB
