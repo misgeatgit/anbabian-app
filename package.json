@@ -11,7 +11,7 @@
     "spotify"
   ],
   "jest": {
-    "preset" : "react-native",
+    "preset": "react-native",
     "globals": {
       "__DEV__": true
     },
@@ -24,6 +24,7 @@
   "scripts": {
     "dev": "expo start",
     "test": "jest",
+    "flow": "flow",
     "prod": "expo --no-dev --minify",
     "start": "expo start",
     "lint": "eslint ./src",
@@ -58,6 +59,7 @@
     "react-navigation": "^3.11.1"
   },
   "devDependencies": {
+    "@babel/preset-flow": "^7.12.13",
     "babel-preset-expo": "^8.1.0",
     "eslint": "^5.16.0",
     "eslint-config-airbnb": "^17.1.0",
@@ -66,6 +68,7 @@
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-react": "^7.13.0",
+    "flow-bin": "^0.146.0",
     "jest": "^26.6.3",
     "prettier": "^1.17.1"
   },
