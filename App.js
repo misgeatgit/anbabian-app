@@ -5,7 +5,7 @@ import { func } from './src/constants';
 // main navigation stack
 import Stack from './src/navigation/Stack';
 import ExpoAdioPlayer from './src/playback/playback';
-import {setUpDB} from './Settings'
+import {setUpDB} from './src/Settings'
 
 export default class App extends React.Component {
   constructor(props) {
