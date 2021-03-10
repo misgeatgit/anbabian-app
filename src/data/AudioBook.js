@@ -84,7 +84,7 @@ async function getLocalURL(book, chapter) {
   return url;
 }
 
-export class AudioBook {
+export default class AudioBook {
   constructor(title, author, frontCover, synopsis, kwargs) {
     this.title = title;
     this.author = author;
