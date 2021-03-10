@@ -17,7 +17,7 @@ Responsible for downloading, encrypting/saving and and decrypting/loading audio.
 */
 
 import { Audio } from 'expo-av';
-import download from '../data/AudioBook'
+import { download } from '../data/AudioBook';
 
 /*
 Expo based Audio player.
