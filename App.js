@@ -1,11 +1,13 @@
 import React from 'react';
 import { StatusBar } from 'react-native';
 import AppLoading from 'expo-app-loading';
+import { Provider } from 'react-redux';
 import { func } from './src/constants';
 // main navigation stack
 import Stack from './src/navigation/Stack';
 import ExpoAdioPlayer from './src/playback/playback';
-import {setUpDB} from './src/Settings'
+import {setUpDB} from './src/Settings';
+import store from './src/Redux';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -77,15 +79,18 @@ export default class App extends React.Component {
     const eventSubscribers = ExpoAdioPlayer.eventSubscribers;
     if (isLoading) {
       return (
+      <Provider store={store}>
         <AppLoading
           onFinish={() => this.setState({ isLoading: false })}
           startAsync={func.loadAssetsAsync}
           onError={console.warn}
         />
+        </Provider>
       );
     }
 
     return (
+      <Provider store={store}>
       <React.Fragment>
         <StatusBar barStyle="light-content" />
 
@@ -100,6 +105,7 @@ export default class App extends React.Component {
           }}
         />
       </React.Fragment>
+      </Provider>
     );
   }
 }
