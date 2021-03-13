@@ -33,9 +33,6 @@ class AudioPlayer {
       playBackChanged: []
     };
 
-    this.notifyPlaybackChanged = this.notifyPlaybackChanged.bind(this);
-    this.notifyPlaybackLoaded = this.notifyPlaybackLoaded.bind(this);
-
     Audio.setAudioModeAsync({
       allowsRecordingIOS: false,
       staysActiveInBackground: false,
@@ -45,17 +42,6 @@ class AudioPlayer {
       interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
       playThroughEarpieceAndroid: false
     });
-  }
-
-  notifyPlaybackLoaded(isLoaded) {
-    audioLoaded(isLoaded);
-  }
-
-  notifyPlaybackChanged(isChanged) {
-    console.log('Inside notifier.');
-    for (let i = 0; i < this.eventSubscribers.playBackLoaded.length; i++) {
-      this.eventSubscribers.playBackChanged[i](isChanged);
-    }
   }
 
   onPlaybackStatusUpdate(playbackStatus, params) {
@@ -96,7 +82,7 @@ class AudioPlayer {
     if (this.playbackInstance != null) {
       await this.playbackInstance.unloadAsync();
       this.playbackInstance = null;
-      this.notifyPlaybackLoaded(false);
+      audioLoaded(false);
     }
 
     if (!(source.uri in this.cache)) {
@@ -118,7 +104,7 @@ class AudioPlayer {
       this.onPlaybackStatusUpdate
     );
     this.playbackInstance = sound;
-    this.notifyPlaybackLoaded(true);
+    audioLoaded(true);
   }
 
   async play() {
