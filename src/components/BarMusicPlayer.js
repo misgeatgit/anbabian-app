@@ -2,6 +2,7 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { FontAwesome } from '@expo/vector-icons';
@@ -19,7 +20,7 @@ class BarMusicPlayer extends React.Component {
     this.toggleFavorite = this.toggleFavorite.bind(this);
     this.togglePlay = this.togglePlay.bind(this);
     this.toggleLoading=this.toggleLoading.bind(this);
-    this.props.eventSubscribers.playBackLoaded.push(this.toggleLoading);
+    //this.props.eventSubscribers.playBackLoaded.push(this.toggleLoading);
   }
 
   toggleFavorite() {
@@ -47,8 +48,8 @@ class BarMusicPlayer extends React.Component {
   }
 
   render() {
-    const { navigation, song, eventSubscribers } = this.props;
-    const { paused, isLoaded} = this.state;
+    const { navigation, song, eventSubscribers, isLoaded } = this.props;
+    const { paused} = this.state;
 
     const iconPlay = paused ? 'play-circle' : 'pause-circle';
 
@@ -81,7 +82,7 @@ class BarMusicPlayer extends React.Component {
           <FontAwesome color={colors.white} name={iconPlay} size={28} />
         </TouchableOpacity>
         }
-        {!isLoaded && 
+        {!isLoaded &&
           <ActivityIndicator size="small" color="white" style={styles.activityIndicator} />
         }
       </TouchableOpacity>
@@ -143,4 +144,10 @@ const styles = StyleSheet.create({
   }
 });
 
-export default withNavigation(BarMusicPlayer);
+const mapStateProps = (state) => {
+  const {audioBook: {selectedAudio: {isLoaded}} } = state;
+  console.log(`isLoaded: ${isLoaded}`)
+  return {isLoaded};
+}
+
+export default withNavigation(connect(mapStateProps)(BarMusicPlayer));

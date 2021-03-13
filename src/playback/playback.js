@@ -18,6 +18,7 @@ Responsible for downloading, encrypting/saving and and decrypting/loading audio.
 
 import { Audio } from 'expo-av';
 import { download } from '../data/AudioBook';
+import { audioLoaded } from '../data/Actions';
 
 /*
 Expo based Audio player.
@@ -44,13 +45,10 @@ class AudioPlayer {
       interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
       playThroughEarpieceAndroid: false
     });
-
   }
 
   notifyPlaybackLoaded(isLoaded) {
-    for (let i = 0; i < this.eventSubscribers.playBackLoaded.length; i++) {
-      this.eventSubscribers.playBackLoaded[i](isLoaded);
-    }
+    audioLoaded(isLoaded);
   }
 
   notifyPlaybackChanged(isChanged) {
@@ -104,6 +102,7 @@ class AudioPlayer {
     if (!(source.uri in this.cache)) {
       try {
         const uri = await download(source.uri);
+        console.log(`URI: ${uri}`);
         this.cache[source.uri] = uri;
         console.log('Downloaded to ', uri);
       } catch (err) {
