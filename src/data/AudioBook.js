@@ -2,6 +2,8 @@ import * as FileSystem from 'expo-file-system';
 import * as Crypto from 'expo-crypto';
 import db from '../Settings';
 
+const books = require('../mockdata/books.json');
+
 async function download(url) {
   return new Promise((resolve, reject) => {
     FileSystem.downloadAsync(
@@ -20,7 +22,7 @@ async function download(url) {
 
 async function persistChapter(chapter, bookId) {
   const path = await download(chapter.audio_file);
-  const insertQuery = `INSERT INTO audiofiles (path, url, name, book_id) values (?. ?, ?, ?)`;
+  const insertQuery = `INSERT INTO audiofiles (path, url, name, book_id) values (?, ?, ?, ?)`;
   db.transaction(
     tx => {
       tx.executeSql(insertQuery, [
@@ -29,6 +31,21 @@ async function persistChapter(chapter, bookId) {
         chapter.audio_file,
         bookId
       ]);
+    },
+    error => {
+      throw error;
+    },
+    null
+  );
+  return path;
+}
+
+async function persistFrontCover(url, bookId) {
+  const path = await download(url);
+  const insertQuery = `INSERT INTO audiofiles (path, url, book_id) values (?, ?, ?)`;
+  db.transaction(
+    tx => {
+      tx.executeSql(insertQuery, [path, url, bookId]);
     },
     error => {
       throw error;
@@ -122,6 +139,16 @@ function createAudioBooks(data) {
   return books;
 }
 
+function getBooks() {
+  const localBooks = Object.values(books).map(async book => {
+    const url = book.front_cover;
+    const path = await persistFrontCover(url, generateBookId(book));
+    return { ...book, front_cover_path: path };
+  });
+
+  return localBooks;
+}
+
 function fetchMockData() {
   // eslint-disable-next-line global-require
   // TODO donot bundle mockdata in production.
@@ -129,4 +156,4 @@ function fetchMockData() {
   return createAudioBooks(data);
 }
 
-export { download, fetchMockData, getLocalURL };
+export { download, fetchMockData, getBooks, getLocalURL };

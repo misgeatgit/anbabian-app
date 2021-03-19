@@ -2,6 +2,7 @@ import {
   AUDIO_SELECTED,
   AUDIO_LOADED,
   BOOK_SELECTED,
+  BOOKS_LOADED,
   PLAY_PAUSE_STATUS,
   UPDATE_PLAY_TIME
 } from '../ActionTypes';
@@ -19,7 +20,8 @@ const INITIAL_STATE = {
     isLoaded: false,
     isPlaying: false,
     currentTime: 0
-  }
+  },
+  books: []
 };
 
 const AudioBookReducer = (state = INITIAL_STATE, action) => {
@@ -40,6 +42,8 @@ const AudioBookReducer = (state = INITIAL_STATE, action) => {
         bookSelected: action.message.bookSelected,
         selectedBook: { ...action.message.book }
       };
+    case BOOKS_LOADED:
+      return { ...state, books: action.books };
     case PLAY_PAUSE_STATUS:
       return {
         ...state,

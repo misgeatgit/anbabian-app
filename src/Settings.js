@@ -28,6 +28,13 @@ CREATE TABLE IF NOT EXISTS
                 paused_at   INTEGER,
                 book_id     TEXT not NULL,
                 FOREIGN KEY (book_id) REFERENCES book(id) ON DELETE CASCADE);
+
+CREATE TABLE IF NOT EXISTS
+    frontcover (id          INTEGER PRIMARY KEY,
+                path        TEXT NOT NULL,
+                url         TEXT NOT NULL,
+                book_id     TEXT not NULL,
+                FOREIGN KEY (book_id) REFERENCES book(id) ON DELETE CASCADE);
 `;
 
 const db = SQLite.openDatabase(AnbabianDB);
